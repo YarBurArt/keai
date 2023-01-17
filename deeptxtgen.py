@@ -1,10 +1,12 @@
 import requests
+# just test api for rei reply 
 
-r = requests.post(
-    "https://api.deepai.org/api/text-generator",
-    data={
-        'text': 'tetx',
-    },
-    headers={'api-key': 'quickstart-QUdJIGlzIGNvbWluZy4uLi4K'}
+url = "https://api.deepai.org/api/text-generator"
+API-KEI = 'quickstart-QUdJIGlzIGNvbWluZy4uLi4K'
+
+response = requests.post(
+    url,
+    data = {'text': 'tetx'},
+    headers={'api-key': API-KEI}
 )
-print(r.json())
+print(response.json())
