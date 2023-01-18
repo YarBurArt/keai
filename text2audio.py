@@ -1,11 +1,15 @@
-from gtts import gTTS
 from playsound import playsound
+from gtts import gTTS
 
-text = "Hello man, how are you?"
+
 def playtext(text):
-    obj = gTTS(text=text, lang='en', slow=False)
+    obj = gTTS(text=text, 
+               lang='en', 
+               slow=False)
     obj.save("text.mp3")
     playsound("text.mp3", 0)
 
+
 if __name__ == '__main__':
-    playtext(text)
+    some_text = "Hello man, how are you?"
+    playtext(some_text)
