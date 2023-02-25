@@ -5,6 +5,8 @@ import numpy as np
 import time
 import os
 
+import imgshow
+
 
 def init_emotion(model="models/emotion-ferplus-8.onnx"):
     # Set global variables
@@ -56,7 +58,9 @@ def emotion(image, returndata=False):
 
         # Get the predicted emotion
         predicted_emotion = emotions[prob.argmax()]
-
+        print(predicted_emotion)
+        if predicted_emotion == 'Happy':
+            imgshow.showimg_tk('graphics/r1.png', "it's good that you feel alive")
         # Write predicted emotion on image
         cv2.putText(img_copy, '{}'.format(predicted_emotion), (x, y + h + (1 * 20)), cv2.FONT_HERSHEY_SIMPLEX, 1,
                     (255, 0, 255),
@@ -65,6 +69,7 @@ def emotion(image, returndata=False):
         cv2.rectangle(img_copy, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
     if returndata:
+
         # Return the the final image if return data is True
         return img_copy
 
