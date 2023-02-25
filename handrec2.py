@@ -7,6 +7,7 @@ cap = cv2.VideoCapture(0)
 # create object detector
 detector = HandDetector(detectionCon=0.8)
 old_l = 0.1
+
 while True:
     success, img = cap.read()
     hands, img = detector.findHands(img)  # going to return img with drawing
@@ -22,8 +23,6 @@ while True:
 
         print(info, length)
 
-
-
     if len(hands) == 2:
         hand2 = hands[1]  # gives us second hand
         lmList2 = hand2["lmList"]  # List of  21 landmarks
@@ -34,7 +33,7 @@ while True:
         length, info, img = detector.findDistance(lmList2[8][:2], lmList2[8][:2], img)
         length, info, img = detector.findDistance(centerPoint1, centerPoint2, img)
 
-        print(info, length)
+        print(info, length, img)
 
         old_l = length
 
