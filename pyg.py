@@ -32,7 +32,8 @@ snake_tails = []
 
 snake_pos["x_change"] = -snake_speed
 for i in range(100):
-    snake_tails.append([snake_pos["x"] + 10 * i, snake_pos["y"]])
+    snake_tails.append([snake_pos["x"] + 10 * i, 
+                        snake_pos["y"]])
 
 # food
 food_pos = {
@@ -88,8 +89,8 @@ while not game_end:
 
     # draw snake tails
     for t in snake_tails:
-        pygame.draw.rect(display, colors["snake_tail"], [
-            t[0], t[1], snake_size[0], snake_size[1]])
+        pygame.draw.rect(display, colors["snake_tail"], 
+                         [t[0], t[1], snake_size[0], snake_size[1]])
 
     # draw snake
     snake_pos["x"] += snake_pos["x_change"]
@@ -108,17 +109,17 @@ while not game_end:
     elif (snake_pos["y"] > 480):
         snake_pos["y"] = 0
 
-    pygame.draw.rect(display, colors["snake_head"], [
-        snake_pos["x"], snake_pos["y"],
+    pygame.draw.rect(display, colors["snake_head"], 
+       [snake_pos["x"], snake_pos["y"],
         snake_size[0], snake_size[1]])
 
     # draw food
-    pygame.draw.rect(display, colors["apple"], [
-        food_pos["x"], food_pos["y"],
+    pygame.draw.rect(display, colors["apple"], 
+       [food_pos["x"], food_pos["y"],
         food_size[0], food_size[1]])
 
     # detect collision with food
-    if (snake_pos["x"] == food_pos["x"] and snake_pos["y"] == food_pos["y"]):
+    if snake_pos["x"] == food_pos["x"] and snake_pos["y"] == food_pos["y"]:
         food_eaten += 1
         snake_tails.append([food_pos["x"], food_pos["y"]])
         food_pos = {
