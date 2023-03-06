@@ -93,13 +93,12 @@ cap = cv2.VideoCapture(0)
 # If you want to use the webcam the pass 0
 # cap = cv2.VideoCapture(0)
 
+while True:
     while True:
-        while True:
-            time.sleep(0.2)  # the optimization fps and cpu resource
-            start_time = time.time()
-            ret, frame = cap.read()
+        time.sleep(0.2)  # the optimization fps and cpu resource
+        start_time = time.time()
+        ret, frame = cap.read()
           
-
         # src = cv2.cuda_GpuMat().upload(frame)
         # clahe = cv2.cuda.createCLAHE(clipLimit=5.0, tileGridSize=(8, 8))
         # frame = clahe.apply(src, cv2.cuda_Stream.Null()).download()
