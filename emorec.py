@@ -88,30 +88,30 @@ cap = cv2.VideoCapture(0)
 # cap = cv2.VideoCapture(0)
 
 while True:
-    while True:
-        time.sleep(0.2)  # the optimization fps and cpu resource
-        start_time = time.time()
-        ret, frame = cap.read()
+    
+        while True:
+            time.sleep(0.2)  # the optimization fps and cpu resource
+            start_time = time.time()
+            ret, frame = cap.read()
           
-        # src = cv2.cuda_GpuMat().upload(frame)
-        # clahe = cv2.cuda.createCLAHE(clipLimit=5.0, tileGridSize=(8, 8))
-        # frame = clahe.apply(src, cv2.cuda_Stream.Null()).download()
+            # src = cv2.cuda_GpuMat().upload(frame)
+            # clahe = cv2.cuda.createCLAHE(clipLimit=5.0, tileGridSize=(8, 8))
+            # frame = clahe.apply(src, cv2.cuda_Stream.Null()).download()
 
+            if not ret:
+                break
 
-        if not ret:
-            break
+            image = cv2.flip(frame, 1)
+            image = emotion(image, returndata=True)
+ 
+            cv2.putText(image, 'FPS: {:.2f}'.format(fps), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 20, 55), 1)
+            cv2.imshow("Emotion Recognition", image)
 
-        image = cv2.flip(frame, 1)
-        image = emotion(image, returndata=True)
+            fps = (1.0 / (time.time() - start_time))
 
-        cv2.putText(image, 'FPS: {:.2f}'.format(fps), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 20, 55), 1)
-        cv2.imshow("Emotion Recognition", image)
-
-        fps = (1.0 / (time.time() - start_time))
-
-        k = cv2.waitKey(1)
-        if k == ord('q'):
-            break
+            k = cv2.waitKey(1)
+            if k == ord('q'):
+                break
 
 cap.release()
 cv2.destroyAllWindows()
