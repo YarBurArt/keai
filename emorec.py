@@ -8,12 +8,16 @@ import os
 import imgshow
 
 
-def init_emotion(model="models/emotion-ferplus-8.onnx"):
+def init_emotion(
+    model="models/emotion-ferplus-8.onnx"
+    ):
     # Set global variables
     global net, emotions
 
     # Define the emotions
-    emotions = ['Neutral', 'Happy', 'Surprise', 'Sad', 'Anger', 'Disgust', 'Fear', 'Contempt']
+    emotions = ['Neutral', 'Happy', 'Surprise', 
+                'Sad', 'Anger', 'Disgust',
+                'Fear', 'Contempt']
 
     # Initialize the DNN module
     net = cv2.dnn.readNetFromONNX(model)
@@ -63,14 +67,17 @@ def emotion(image, returndata=False):
         if predicted_emotion == 'Happy':
             imgshow.showimg_tk('graphics/r1.png', "it's good that you feel alive")
         # Write predicted emotion on image
-        cv2.putText(img_copy, '{}'.format(predicted_emotion), (x, y + h + (1 * 20)), cv2.FONT_HERSHEY_SIMPLEX, 1,
+        cv2.putText(img_copy, '{}'.format(predicted_emotion),
+                    (x, y + h + (1 * 20)), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 1,
                     (255, 0, 255),
                     2, cv2.LINE_AA)
         # Draw a rectangular box on the detected face
-        cv2.rectangle(img_copy, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        cv2.rectangle(img_copy, (x, y), 
+                     (x + w, y + h), 
+                     (0, 0, 255), 2)
 
     if returndata:
-
         # Return the the final image if return data is True
         return img_copy
 
