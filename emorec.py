@@ -88,7 +88,7 @@ cap = cv2.VideoCapture(0)
 # cap = cv2.VideoCapture(0)
 
 while True:
-    
+    try:
         while True:
             time.sleep(0.2)  # the optimization fps and cpu resource
             start_time = time.time()
@@ -111,7 +111,8 @@ while True:
 
             k = cv2.waitKey(1)
             if k == ord('q'):
-                break
-
+                raise Exception("exit")
+    except Exception as ex: 
+        break
 cap.release()
 cv2.destroyAllWindows()
