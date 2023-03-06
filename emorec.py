@@ -39,23 +39,17 @@ def emotion(image, returndata=False):
 
         # Convert the detected face from BGR to Gray scale
         gray = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-
         # Resize the gray scale image into 64x64
         resized_face = cv2.resize(gray, (64, 64))
-
         # Reshape the final image in required format of model
         processed_face = resized_face.reshape(1, 1, 64, 64)
-
         # Input the processed image
         net.setInput(processed_face)
-
         # Forward pass
         Output = net.forward()
-
         # Compute softmax values for each sets of scores
         expanded = np.exp(Output - np.max(Output))
         probablities = expanded / expanded.sum()
-
         # Get the final probablities by getting rid of any extra dimensions
         prob = np.squeeze(probablities)
 
@@ -102,6 +96,7 @@ while True:
         # src = cv2.cuda_GpuMat().upload(frame)
         # clahe = cv2.cuda.createCLAHE(clipLimit=5.0, tileGridSize=(8, 8))
         # frame = clahe.apply(src, cv2.cuda_Stream.Null()).download()
+
 
         if not ret:
             break
