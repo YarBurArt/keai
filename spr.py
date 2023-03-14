@@ -1,11 +1,14 @@
-# code by python today for learn sr
+# -*- coding: utf-8 -*-
+# author's / PythonToday, YarBurArt
 from os import listdir, system
 from random import choice
 from speech_recognition import Recognizer, Microphone, UnknownValueError
 
+# Initialize recognition session
 sr = Recognizer()
-sr.pause_threshold = 0.5
+sr.pause_threshold = .5
 
+# edit if add new func
 commands_dict = {
     'commands': {
         'greeting': ['привет', 'приветствую', 'здравствуй'],
@@ -15,32 +18,35 @@ commands_dict = {
 }
 
 
-def listen_command():
+def listen_command() -> str:
     """The function will return the recognized command"""
     try:
+        # if recognition speech
         with Microphone() as mic:
             sr.adjust_for_ambient_noise(source=mic, duration=0.5)
             audio = sr.listen(source=mic)
-            query = sr.recognize_google(audio_data=audio, language='ru-RU').lower()
-        return query
+            query_cmd = sr.recognize_google(audio_data=audio,
+                                            language='ru-RU').lower()
+        return query_cmd
     except UnknownValueError:
         return 'Не поняла что ты сказал'
 
 
-greeting = lambda x: 'Привет хозяин'
+def greeting() -> str:
+    return 'Привет хозяин'
 
 
-def create_task():
+def create_task() -> str:
+    """The function for add task from voice to todo-list"""
     print('Что добавим в список дел?')
-
-    query = listen_command()
+    query_task = listen_command()
     with open('todo-list.txt', 'a') as file:
-        file.write(f'❗️ {query}\n')
-        
-    return f'Задача {query} добавлена в todo-list'
+        file.write(f'❗️ {query_task}\n')
+    return f'Задача {query_task} добавлена в todo-list'
 
 
-def play_music():
+def play_music() -> str:
+    """The function for play random music from '/music/' dir"""
     files = listdir('music')
     random_file = f'music/{choice(files)}'
     system(f'xdg-open {random_file}')
@@ -49,6 +55,7 @@ def play_music():
 
 
 if __name__ == '__main__':
+    """Start listening and run commands by name from dict"""
     query = listen_command()
     for k, v in commands_dict['commands'].items():
         if query in v:
