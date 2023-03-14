@@ -42,7 +42,7 @@ pygame.init()
 screen = pygame.display.set_mode((500, 700))
 pygame.display.set_caption("My Game")
 
-done = False
+isrun = True 
 
 # для управления скоростью обновления экрана.
 clock = pygame.time.Clock()
@@ -50,12 +50,12 @@ clock = pygame.time.Clock()
 pygame.joystick.init()
 textPrint = TextPrint()
 
-while not done:
+while isrun:
     # Возможные действия джойстика: JOYAXISMOTION, JOYBALLMOTION, JOYBUTTONDOWN,
     # JOYBUTTONUP, JOYHATMOTION
     for event in pygame.event.get():  # Пользователь что-то сделал.
         if event.type == pygame.QUIT: 
-            done = True
+            isrun = False
         elif event.type == pygame.JOYBUTTONDOWN:
             print("Joystick button pressed.")
         elif event.type == pygame.JOYBUTTONUP:
