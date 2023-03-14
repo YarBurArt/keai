@@ -13,9 +13,7 @@ def send_data(data):
     with open('data/trans.txt', 'w') as f:
         f.write(data)
 
-# Это простой класс, который поможет нам печатать на экране.
-# Это не имеет ничего общего с джойстиками, просто выводит
-# information.
+# write text 
 class TextPrint(object):
     def __init__(self):
         self.reset()
