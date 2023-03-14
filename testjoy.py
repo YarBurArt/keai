@@ -93,12 +93,11 @@ while not done:
             guid = joystick.get_guid()
         except AttributeError:
             # get_guid () - это метод SDL2
-            pass
-        else:
+            guid = "Null"
+        finally:
             textPrint.tprint(screen, "GUID: {}".format(guid))
 
-        # Обычно оси работают парами, вверх / вниз для одной и влево / вправо для
-        # другой.
+        # определение двух осей
         axes = joystick.get_numaxes()
         textPrint.tprint(screen, "Number of axes: {}".format(axes))
         textPrint.indent()
