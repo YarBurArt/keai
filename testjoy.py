@@ -1,7 +1,6 @@
 import pygame
 
 
-# Определите несколько цветов.
 BLACK = pygame.Color('black')
 WHITE = pygame.Color('white')
 
@@ -41,47 +40,35 @@ class TextPrint(object):
 
 pygame.init()
 
-# Установить ширину и высоту экрана (ширина, высота).
+# (ширина, высота).
 screen = pygame.display.set_mode((500, 700))
-
 pygame.display.set_caption("My Game")
 
-# Цикл, пока пользователь не нажмет кнопку закрытия.
 done = False
 
-# Используется для управления скоростью обновления экрана.
+# для управления скоростью обновления экрана.
 clock = pygame.time.Clock()
 
-# Инициализировать джойстики.
 pygame.joystick.init()
-
-# Будьте готовы к печати.
 textPrint = TextPrint()
 
-# -------- Основной цикл программы -----------
 while not done:
-    #
-    # ЭТАП ОБРАБОТКИ СОБЫТИЯ
-    #
     # Возможные действия джойстика: JOYAXISMOTION, JOYBALLMOTION, JOYBUTTONDOWN,
     # JOYBUTTONUP, JOYHATMOTION
     for event in pygame.event.get():  # Пользователь что-то сделал.
-        if event.type == pygame.QUIT:  # Если пользователь нажал кнопку "Закрыть".
-            done = True  # Отметить, что мы закончили, чтобы выйти из этого цикла.
+        if event.type == pygame.QUIT: 
+            done = True
         elif event.type == pygame.JOYBUTTONDOWN:
             print("Joystick button pressed.")
         elif event.type == pygame.JOYBUTTONUP:
             print("Joystick button released.")
 
-    #
-    # ШАГ РИСОВАНИЯ
-    #
-    # Сначала сделайте экран белым. Не помещайте другие команды рисования
+    # Не помещайте другие команды рисования
     # выше этого, иначе они будут удалены с помощью этой команды.
     screen.fill(WHITE)
     textPrint.reset()
 
-    # Получите количество джойстиков.
+    # количество джойстиков
     joystick_count = pygame.joystick.get_count()
 
     textPrint.tprint(screen, "Number of joysticks: {}".format(joystick_count))
@@ -152,17 +139,11 @@ while not done:
 
         textPrint.unindent()
 
-    #
-    # ВСЕ КОДЫ ДЛЯ РИСОВАНИЯ ДОЛЖНЫ НАХОДИТЬСЯ ВЫШЕ ЭТОГО КОММЕНТАРИИ
-    #
-
-    # Продолжайте и обновите экран тем, что мы нарисовали.
+    # update display 
     pygame.display.flip()
 
     # Ограничение до 20 кадров в секунду.
     clock.tick(20)
 
-# Закройте окно и выйдите.
-# Если вы забудете эту строку, программа "зависнет"
-# при выходе из IDLE.
+# debug IDE quit 
 pygame.quit()
