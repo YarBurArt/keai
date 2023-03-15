@@ -1,19 +1,19 @@
-import torch
+from torch import ones
 from torch.autograd import Variable
 from torch.nn import Module, Linear, NLLLoss
 from torch.nn.functional import relu, log_softmax
 from torch.optim import SGD
+from torch.utils.data import DataLoader
 from torchvision.datasets import MNIST
 from torchvision.transforms import Compose, ToTensor, Normalize
-from torch.utils.data import DataLoader
 
 
 def simple_gradient():
     # print the gradient of 2x^2 + 5x
-    x = Variable(torch.ones(2, 2) * 2, requires_grad=True)
+    x = Variable(ones(2, 2) * 2, requires_grad=True)
     z = 2 * (x * x) + 5 * x
     # run the backpropagation
-    z.backward(torch.ones(2, 2))
+    z.backward(ones(2, 2))
     print(x.grad)
 
 
