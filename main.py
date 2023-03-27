@@ -38,14 +38,11 @@ def listen_command():
 def greeting():
     imgshow.show("graphics/r1.png", "hello man, how are you doing")
 
-def main():
-    query = listen_command()
-
-    for k, v in commands_dict['commands'].items():
-        if query in v:
-            print(globals()[k]())
-
 
 if __name__ == '__main__':
     while True:
-        main()
+        query = listen_command()
+
+        for k, v in commands_dict['commands'].items():
+            if query in v:
+                print(globals()[k]())

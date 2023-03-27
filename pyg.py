@@ -129,8 +129,10 @@ while not game_end:
 
     # detect collision with tail
     for i, v in enumerate(snake_tails):
-        new_snake_pos_x, new_snake_pos_y = snake_pos["x"] + snake_pos["x_change"], snake_pos["y"] + snake_pos["y_change"]
-        if (new_snake_pos_x == snake_tails[i][0] and new_snake_pos_y == snake_tails[i][1]):
+        new_snake_pos_x, new_snake_pos_y = snake_pos["x"] + snake_pos["x_change"], \
+        snake_pos["y"] + snake_pos["y_change"]
+        if (new_snake_pos_x == snake_tails[i][0] and \
+            new_snake_pos_y == snake_tails[i][1]):
             snake_tails = snake_tails[:i]
             break
 
