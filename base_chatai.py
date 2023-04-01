@@ -13,7 +13,8 @@ m.click(x_dim/2, y_dim/2)
 
 
 def write(str_to_write):
-    subprocess.Popen(['/bin/sh', '-c', f'echo "{str_to_write}" | xsel --clipboard --input'])
+    subprocess.Popen(['/bin/sh', '-c', 
+                     f'echo "{str_to_write}" | xsel --clipboard --input'])
     pag.hotkey("ctrl","v")
 
 # time.sleep(7)
