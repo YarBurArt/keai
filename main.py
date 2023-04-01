@@ -14,13 +14,21 @@ commands_dict = {
         'wdoing':['у меня всё хорошо', 'нормально']
     }
 }
+
+
 def wdoing():
     imgshow.show("graphics/r1.png", "I'm also doing well")
+
+
 def name():
     imgshow.show("graphics/r3.png", "I am artificial intelligence Ayanami Rei")
+
+
 def ext():
     imgshow.show("graphics/r1.png", "goodbye man")
     exit()
+
+
 def listen_command():
     """The function will return the recognized command"""
 
