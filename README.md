@@ -6,6 +6,4 @@ However, the process of experimentation and customization is often necessary whe
 
 It is important to note that the code presented here is not intended for use by those unfamiliar with Linux programming. It is recommended that those without experience seek the guidance of a more experienced programmer or technician. With proper guidance, however, even those new to Linux programming can learn to navigate and utilize its capabilities.
 
-Thank you for the helpful information. I'm actually new to Linux programming, so your recommendation to seek guidance from an experienced programmer or technician is well taken. Would it be possible to include some resources or references that could help someone like me get started with Linux programming? 
 
-This document provides code snippets intended for integration into a larger program, but notes that the installation process may be difficult for those unfamiliar with Linux programming. It recommends seeking guidance from an experienced programmer or technician, and notes that with proper guidance even beginners can learn to navigate and utilize Linux's capabilities. The user requests additional resources for getting started with Linux programming.
