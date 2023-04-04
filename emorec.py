@@ -11,6 +11,10 @@ import imgshow
 def init_emotion(
     model="models/emotion-ferplus-8.onnx"
     ):
+    """
+    The function for initialize 
+    face recognition model 
+    """
     # Set global variables
     global net, emotions
 
@@ -24,6 +28,11 @@ def init_emotion(
 
 
 def emotion(image, returndata=False):
+    """
+    The function for face recognition,
+    image -> image segmentation,
+          -> show Rai emotion 
+    """
     # Make copy of  image
     img_copy = image.copy()
     # Detect faces in image
