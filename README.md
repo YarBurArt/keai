@@ -1,5 +1,5 @@
 # Keai /
-This project is practically a friend of mine, with a similar character in speech. The conditional ayanami ray can see me, make out my face and hand gestures, and recognise my voice. And then she can respond to me with her voice and show her emotions in a gif.
+This project is practically a friend of mine, with a similar character in speech. The conditional _Ayanami Ray_ can see me, make out my face and hand gestures, and recognise my voice. And then she can respond to me with her voice and show her emotions in a gif.
 
 ## Instalation /
 ```
