@@ -96,8 +96,9 @@ cap = cv2.VideoCapture(0)
 # If you want to use the webcam the pass 0
 # cap = cv2.VideoCapture(0)
 
+# camera image processing cycle 
 while True:
-    try:
+    try:  # crutch to exit the loop 
         while True:
             time.sleep(0.2)  # the optimization fps and cpu resource
             start_time = time.time()
