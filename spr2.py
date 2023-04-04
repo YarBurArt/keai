@@ -15,6 +15,10 @@ recognizer = sr.Recognizer()
 
 
 def record_audio(sec: int = seconds) -> None:
+    """
+    The function for recording an audio file
+    with a second limit
+    """
     # start recording
     data = sd.rec(int(sec * fs), samplerate=fs, channels=2)
     sd.wait()  # end recording
