@@ -3,6 +3,7 @@ from sys import platform
 import os 
 import time
 
+# rewrite these functions for your PC 
 
 def run_app(name: str = ""):
     pag.hotkey("win")
