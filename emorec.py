@@ -4,8 +4,16 @@ import bleedfacedetector as fd
 import numpy as np
 import time
 import os
+import socket
 
 import imgshow
+
+
+host = socket.gethostname()  # as both code is running on same pc
+port = 5000  # socket server port number
+
+client_socket = socket.socket()  # instantiate
+client_socket.connect((host, port))  # connect to the server
 
 
 def init_emotion(
@@ -65,8 +73,10 @@ def emotion(image, returndata=False):
         # Get the predicted emotion
         predicted_emotion = emotions[prob.argmax()]
         print(predicted_emotion)
-        if predicted_emotion == 'Happy':
-            imgshow.showimg_tk('graphics/r1.png', "it's good that you feel alive")
+        if predicted_emotion in ['Happy', 'Surprise', 'Sad',
+                                 'Anger', 'Disgust', 'Fear', 'Contempt']:
+            # imgshow.showimg_tk('graphics/r1.png', "it's good that you feel alive")
+            client_socket.send(predicted_emotion.encode())
         # Write predicted emotion on image
         cv2.putText(img_copy, '{}'.format(predicted_emotion),
                     (x, y + h + (1 * 20)), 
@@ -124,5 +134,6 @@ while True:
                 raise Exception("exit")
     except Exception as ex: 
         break
+
 cap.release()
 cv2.destroyAllWindows()
