@@ -4,8 +4,11 @@ from PIL.Image import open as open_img
 import text2audio
 
 
-def showimg_tk(image_path, text="rei", 
-               ismuz=False):
+def showimg_tk(image_path, text="rei", ismuz=False):
+    """
+    The function that shows an image for a couple of seconds 
+    and plays speech RAI
+    """
     root = Tk()
     root.title("rei emotion")
 
