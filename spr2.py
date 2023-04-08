@@ -30,6 +30,9 @@ def record_audio(sec: int = seconds) -> None:
 
 
 def recognize_voice(lang: str = "en") -> str:
+    """
+    The function that converts a file to text 
+    """
     file = sr.AudioFile('out.wav')  # up file to cache
     with file as source:  # open file to flow
         # clean up the noise 
