@@ -4,7 +4,7 @@ import os
 import time
 
 # rewrite these functions for your PC 
-
+# piece of self-documented code 
 def run_app(name: str = ""):
     pag.hotkey("win")
     pag.write(name)
@@ -47,8 +47,8 @@ def run_devkit(variant: str = "python"):
     else:
         pass
 
-
-def run_game():
+# need add Minecraft, Fortnite start at steam , Genshin
+def run_game(): 
     pass
 
 
