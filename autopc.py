@@ -2,9 +2,10 @@ import pyautogui as pag
 from sys import platform
 import os 
 import time
-
 # rewrite these functions for your PC 
-# piece of self-documented code 
+# piece of self-documented code
+
+
 def run_app(name: str = ""):
     pag.hotkey("win")
     pag.write(name)
@@ -47,9 +48,40 @@ def run_devkit(variant: str = "python"):
     else:
         pass
 
+
 # need add Minecraft, Fortnite start at steam , Genshin
-def run_game(): 
-    pass
+def run_game(game_name: str = "minecraft"):
+    if platform == "linux":
+        os.system("nudoku")
+    if platform == "win32":
+        if game_name == "minecraft":
+            run_app("tla")
+        if game_name == "genshin":
+            run_app("gensh")
+        if game_name == "fortnite":
+            pag.alert(text='Is the epicgames closed in trey?',
+                      title='check steam', button='YES')
+            run_app("stea")
+            time.sleep(17)  # wait for loading steam
+            pag.alert(text='Is the gamepad up and running and connected?',
+                      title='check gamepad', button='YES')
+            time.sleep(2)
+            pag.click(461, 577)
+            time.sleep(1)
+            pag.click(391, 425)
+            time.sleep(25)  # wait for loading epicgames
+            pag.hotkey("win", "up")
+            time.sleep(0.5)
+            pag.click(78, 435)
+    else:
+        pass
+
+
+# only for development
+def check_mouse_position():
+    while True:
+        time.sleep(2)
+        print(pag.position())
 
 
 def sys_statistics():
@@ -63,9 +95,6 @@ def sys_statistics():
 
 if __name__ == "__main__":
     print(platform)
-    # test
-    # run_consol()
-    # run_browser()
-    # run_devkit()
-    # sys_statistics()
+    run_game("fortnite")
+    # check_mouse_position()
 

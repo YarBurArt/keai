@@ -20,7 +20,7 @@ async def check_voice():
         await asyncio.sleep(3)
         if sec := input("enter sec:"):
             if sec == "q":
-                break # crutch to get out 
+                break  # crutch to get out
 
             # it's highlighted because it's so beautiful ^_^
             with int(sec) as record_sec:
@@ -66,7 +66,7 @@ async def check_emotion():
         data = conn.recv(1024).decode()
         if not data:
             conn.close()
-            break # here lies the error 
+            break  # here lies the error
         print("from connected user: " + str(data))
         if data == "Happy":
             text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
