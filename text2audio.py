@@ -7,7 +7,7 @@ def playtext(text):
                lang='en', 
                slow=False)
     obj.save("text.mp3")
-    playsound("text.mp3")
+    playsound("audio/text.mp3")
 
 
 if __name__ == '__main__':
