@@ -1,6 +1,6 @@
 # Keai /
 
-!(KeAI by Ayanami Rai)[https://raw.githubusercontent.com/YarBurArt/keai/681e1549784fbe8ed8ad0c7e3b2802f9a554b1c5/graphics/be1804782c35e5e74bf24c2884a2b472.jpeg]
+![KeAI by Ayanami Rai](https://raw.githubusercontent.com/YarBurArt/keai/681e1549784fbe8ed8ad0c7e3b2802f9a554b1c5/graphics/be1804782c35e5e74bf24c2884a2b472.jpeg)
 
 This project is practically a friend of mine, with a similar character in speech. The conditional _Ayanami Ray_ can see me, make out my face and hand gestures, and recognise my voice. And then she can respond to me with her voice and show her emotions in a gif.
 
