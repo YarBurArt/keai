@@ -10,7 +10,7 @@ def toFixed(numObj, digits=0):
 
 
 def send_data(data):
-    with open('data/trans.txt', 'w') as f:
+    with open('../data/trans.txt', 'w') as f:
         f.write(data)
 
 # write text 

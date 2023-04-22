@@ -2,6 +2,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 # download & load GPT-2 model
+# TODO: replace to my waifu extended gpt2
 tokenizer = AutoTokenizer.from_pretrained("gpt2-large")
 model = AutoModelForCausalLM.from_pretrained("gpt2-large")
 

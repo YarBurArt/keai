@@ -1,4 +1,4 @@
-from spr2 import record_audio, recognize_voice
+from keai.utils.spr2 import record_audio, recognize_voice
 import socket
 import asyncio
 from imgshow import showimg_tk

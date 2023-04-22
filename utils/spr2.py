@@ -26,14 +26,14 @@ def record_audio(sec: int = seconds) -> None:
     data = data / np.abs(data).max()
     type_max = np.iinfo(np.int32).max
     out_data = (type_max * data).astype(np.int32)
-    write('audio/out.wav', fs, out_data)  # save file
+    write('../audio/out.wav', fs, out_data)  # save file
 
 
 def recognize_voice(lang: str = "en") -> str:
     """
     The function that converts a file to text 
     """
-    file = sr.AudioFile('audio/out.wav')  # up file to cache
+    file = sr.AudioFile('../audio/out.wav')  # up file to cache
     with file as source:  # open file to flow
         # clean up the noise 
         recognizer.adjust_for_ambient_noise(source)
