@@ -5,6 +5,7 @@ from imgshow import showimg_tk
 from chatKeai import get_gpt2_text  # rewtite
 import autopc
 from deep_translator import GoogleTranslator
+from spr3 import voice_recognition
 
 # template's translation 
 translator = GoogleTranslator(source='ru', target='en')
@@ -18,33 +19,24 @@ async def check_voice():
     """
     while True:
         await asyncio.sleep(3)
-        if sec := input("enter sec:"):
-            if sec == "q":
-                break  # crutch to get out
 
-            # it's highlighted because it's so beautiful ^_^
-            with int(sec) as record_sec:
-                print('start recording')
-                record_audio(record_sec)
-                print('end recording')
-                await asyncio.sleep(0.2)
-                text = recognize_voice(lang='ru')  # edit lang for your region
+        text: str = voice_recognition(language='ru')  # edit lang for your region
 
-            # this must be added for levenstein distance
-            if "питон" in text.split(" "):
-                autopc.run_devkit("python")
-            if "плюсы" in text.split(" "):
-                autopc.run_devkit("c++")
-            if "интернет" in text.split(" "):
-                autopc.run_browser()
-            if "консоль" in text.split(" "):
-                autopc.run_consol()
-            if "системы" in text.split(" "):
-                autopc.sys_statistics()
-            else:
-                translated = translator.translate(text)
-                text = get_gpt2_text("tell me how is my anime girl: " + translated)
-                showimg_tk("graphics/r1.png", text, ismuz=True)
+        # this must be added for levenstein distance
+        if "питон" in text.split(" "):
+            autopc.run_devkit("python")
+        if "плюсы" in text.split(" "):
+            autopc.run_devkit("c++")
+        if "интернет" in text.split(" "):
+            autopc.run_browser()
+        if "консоль" in text.split(" "):
+            autopc.run_consol()
+        if "системы" in text.split(" "):
+            autopc.sys_statistics()
+        else:
+            translated = translator.translate(text)
+            text = get_gpt2_text("tell me how is my anime girl: " + translated)
+            showimg_tk("graphics/r1.png", text, ismuz=True)
 
 # set socket parameters for IPC
 host = socket.gethostname()
