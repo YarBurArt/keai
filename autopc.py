@@ -2,8 +2,30 @@ import pyautogui as pag
 from sys import platform
 import os 
 import time
-# rewrite these functions for your PC 
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+
+# rewrite these functions for your PC
 # piece of self-documented code
+
+
+async def execute_command(commands_dict: dict, command_string: str) -> bool:
+    """
+    The function which translates the text into a command call
+    :param commands_dict:  command call options in the config
+    :param command_string: recognized text
+    :return: Boolean for rei answer
+    """
+    try:  # black magic
+        for key in commands_dict.keys():
+            # extractOne()[1] is the percentage of matches with any element of the tuple from the dictionary
+            if process.extractOne(command_string, commands_dict[key])[1] >= 60:
+                # if command_string in commands_dict[key]:
+                globals()[key](); break
+        else:
+            raise StopIteration
+    except StopIteration:
+        return False
 
 
 def run_app(name: str = ""):

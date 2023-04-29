@@ -1,11 +1,11 @@
-from keai.utils.spr2 import record_audio, recognize_voice
 import socket
 import asyncio
 from imgshow import showimg_tk
 from chatKeai import get_gpt2_text  # rewtite
-import autopc
+from autopc import execute_command
 from deep_translator import GoogleTranslator
 from spr3 import voice_recognition
+from config import commands
 
 # template's translation 
 translator = GoogleTranslator(source='ru', target='en')
@@ -21,19 +21,8 @@ async def check_voice():
         await asyncio.sleep(3)
 
         text: str = voice_recognition(language='ru')  # edit lang for your region
-
-        # this must be added for levenstein distance
-        if "питон" in text.split(" "):
-            autopc.run_devkit("python")
-        if "плюсы" in text.split(" "):
-            autopc.run_devkit("c++")
-        if "интернет" in text.split(" "):
-            autopc.run_browser()
-        if "консоль" in text.split(" "):
-            autopc.run_consol()
-        if "системы" in text.split(" "):
-            autopc.sys_statistics()
-        else:
+        # if command is not found or else execute it
+        if not await execute_command(commands, text):
             translated = translator.translate(text)
             text = get_gpt2_text("tell me how is my anime girl: " + translated)
             showimg_tk("graphics/r1.png", text, ismuz=True)
