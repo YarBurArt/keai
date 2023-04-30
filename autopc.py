@@ -21,7 +21,8 @@ async def execute_command(commands_dict: dict, command_string: str) -> bool:
             # extractOne()[1] is the percentage of matches with any element of the tuple from the dictionary
             if process.extractOne(command_string, commands_dict[key])[1] >= 60:
                 # if command_string in commands_dict[key]:
-                globals()[key](); break
+                print(key); break
+                # globals()[key](); break
         else:
             raise StopIteration
     except StopIteration:

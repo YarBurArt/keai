@@ -1,3 +1,17 @@
+"""
+ __   __        ___           _       _
+ \ \ / /_ _ _ _| _ )_  _ _ _ /_\  _ _| |_
+  \ V / _` | '_| _ \ || | '_/ _ \| '_|  _|
+   |_|\__,_|_| |___/\_,_|_|/_/ \_\_|  \__|
+This is just the code sketch
+                        TODO:
+- add hand recognition
+- compile 3 types of user signal into one => answer rei
+- write a text generation engine based on extended gpt2 conversations waifu
+- make normal architecture
+- optimization and refactoring
+"""
+
 import socket
 import asyncio
 from imgshow import showimg_tk
@@ -18,14 +32,17 @@ async def check_voice():
     :return: start app from recognize voice or answer by rei
     """
     while True:
-        await asyncio.sleep(3)
-
-        text: str = voice_recognition(language='ru')  # edit lang for your region
+        await asyncio.sleep(0.1)
+        print("debug 1")
+        text: str = voice_recognition(language='en')  # edit lang for your region
         # if command is not found or else execute it
-        if not await execute_command(commands, text):
-            translated = translator.translate(text)
-            text = get_gpt2_text("tell me how is my anime girl: " + translated)
-            showimg_tk("graphics/r1.png", text, ismuz=True)
+
+        print(text)
+        print("end ")
+        # if not await execute_command(commands, text):
+        #     translated = translator.translate(text)
+        #     text = get_gpt2_text("tell me how is my anime girl: " + translated)
+        #     showimg_tk("graphics/r1.png", text, ismuz=True)
 
 # set socket parameters for IPC
 host = socket.gethostname()
@@ -46,8 +63,7 @@ async def check_emotion():
         await asyncio.sleep(0.5)
         data = conn.recv(1024).decode()
         if not data:
-            conn.close()
-            break  # here lies the error
+            conn.close(); break  # here lies the error
         print("from connected user: " + str(data))
         if data == "Happy":
             text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
