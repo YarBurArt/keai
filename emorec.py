@@ -6,19 +6,18 @@ import time
 import os
 import socket
 
+import ipc
 import imgshow
 
 
-host = socket.gethostname()  # as both code is running on same pc
-port = 5000  # socket server port number
+# host = socket.gethostname()  # as both code is running on same pc
+# port = 5000  # socket server port number
+#
+# client_socket = socket.socket()  # instantiate
+# client_socket.connect((host, port))  # connect to the server
 
-client_socket = socket.socket()  # instantiate
-client_socket.connect((host, port))  # connect to the server
 
-
-def init_emotion(
-    model="models/emotion-ferplus-8.onnx"
-    ):
+def init_emotion(model="models/emotion-ferplus-8.onnx"):
     """
     The function for initialize 
     face recognition model 
@@ -41,6 +40,8 @@ def emotion(image, returndata=False):
     image -> image segmentation,
           -> show Rai emotion 
     """
+    ipc_context = ipc.IpcContext('MySecret')
+
     # Make copy of  image
     img_copy = image.copy()
     # Detect faces in image
@@ -76,7 +77,8 @@ def emotion(image, returndata=False):
         if predicted_emotion in ['Happy', 'Surprise', 'Sad',
                                  'Anger', 'Disgust', 'Fear', 'Contempt']:
             # imgshow.showimg_tk('graphics/r1.png', "it's good that you feel alive")
-            client_socket.send(predicted_emotion.encode())
+            # client_socket.send(predicted_emotion.encode())
+            ipc_context.send_data_then_wait(predicted_emotion.encode())
         # Write predicted emotion on image
         cv2.putText(img_copy, '{}'.format(predicted_emotion),
                     (x, y + h + (1 * 20)), 
@@ -124,7 +126,9 @@ while True:
             image = cv2.flip(frame, 1)
             image = emotion(image, returndata=True)
  
-            cv2.putText(image, 'FPS: {:.2f}'.format(fps), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 20, 55), 1)
+            cv2.putText(image, 'FPS: {:.2f}'.format(fps),
+                        (10, 20), cv2.FONT_HERSHEY_SIMPLEX,
+                        0.8, (255, 20, 55), 1)
             cv2.imshow("Emotion Recognition", image)
 
             fps = (1.0 / (time.time() - start_time))

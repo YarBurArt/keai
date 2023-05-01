@@ -5,6 +5,7 @@
    |_|\__,_|_| |___/\_,_|_|/_/ \_\_|  \__|
 This is just the code sketch
                         TODO:
+- write the exit button
 - add hand recognition
 - compile 3 types of user signal into one => answer rei
 - write a text generation engine based on extended gpt2 conversations waifu
@@ -12,6 +13,7 @@ This is just the code sketch
 - optimization and refactoring
 """
 
+import ipc
 import socket
 import asyncio
 from imgshow import showimg_tk
@@ -27,20 +29,9 @@ translator = GoogleTranslator(source='ru', target='en')
 translator1 = GoogleTranslator(source='en', target='ru')
 
 
-def start_serv() -> tuple:
-    # set socket parameters for IPC
-    host = socket.gethostname()
-    port = 1123
-    server_socket = socket.socket()
-    server_socket.bind((host, port))
-    server_socket.listen(2)
-
-    return server_socket.accept()
-
-
 async def check_voice() -> None:
     """
-    The function which processes the voice over recording in seconds
+    The function which processes the voice
     :return: start app from recognize voice or answer by rei
     """
     while True:
@@ -60,28 +51,25 @@ async def check_voice() -> None:
             print("end ")
 
 
-async def check_emotion(connection) -> None:
+async def check_emotion(ipccntx) -> None:
     """
     The function that takes the recognized emotion from emorec.py,
     recognition in emorec.py must be run in parallel via anaconda
     """
+    ipccntx.wait()
     while True:
         await asyncio.sleep(0.5)
-        data = connection.recv(1024).decode()
-        if not data:
-            connection.close(); break  # here lies the error
+        data = ipccntx.read_data()
         print("from connected user: " + str(data))
-        if data == "Happy":
-            text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
+        if data == "Happy":  # bug
+            # text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
+            text = "null"
             showimg_tk("graphics/r1.png", text, ismuz=True)
 
 if __name__ == "__main__":
-    print("debug 0")
-    conn, address = start_serv()
-    print("debug end")
-    print("Connection from: " + str(address))
+    ipc_context = ipc.IpcContext('MySecret')
 
     # async loop so REI can see and listen me
     loop = asyncio.get_event_loop()
-    cors = asyncio.wait([check_voice()])  # check_emotion(connection=conn)])
+    cors = asyncio.wait([check_voice(), check_emotion(ipccntx=ipc_context)])
     loop.run_until_complete(cors)
