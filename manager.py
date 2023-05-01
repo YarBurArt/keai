@@ -20,24 +20,25 @@ from autopc import execute_command
 from deep_translator import GoogleTranslator
 from spr3 import voice_recognition
 from config import commands
+from speech_recognition.exceptions import UnknownValueError
 
 # template's translation 
 translator = GoogleTranslator(source='ru', target='en')
 translator1 = GoogleTranslator(source='en', target='ru')
 
-conn, addres = None # add global
-def start(): # add
+
+def start_serv() -> tuple:
     # set socket parameters for IPC
     host = socket.gethostname()
-    port = 5000
+    port = 1123
     server_socket = socket.socket()
     server_socket.bind((host, port))
     server_socket.listen(2)
-    conn, address = server_socket.accept()
-    print("Connection from: " + str(address))
+
+    return server_socket.accept()
 
 
-async def check_voice():
+async def check_voice() -> None:
     """
     The function which processes the voice over recording in seconds
     :return: start app from recognize voice or answer by rei
@@ -45,34 +46,42 @@ async def check_voice():
     while True:
         await asyncio.sleep(0.1)
         print("debug 1")
-        text: str = voice_recognition(language='en')  # edit lang for your region
-        # if command is not found or else execute it
+        try:
+            text: str = voice_recognition(language='en')  # edit lang for your region
+            print(text)
+            # if command is not found or else execute it
+            if not await execute_command(commands, text):
+                translated = translator.translate(text)
+                text = get_gpt2_text("tell me how is my anime girl: " + translated)
+                showimg_tk("graphics/r1.png", text, ismuz=True)
+        except UnknownValueError:
+            pass
+        finally:
+            print("end ")
 
-        print(text)
-        print("end ")
-        # if not await execute_command(commands, text):
-        #     translated = translator.translate(text)
-        #     text = get_gpt2_text("tell me how is my anime girl: " + translated)
-        #     showimg_tk("graphics/r1.png", text, ismuz=True)
 
-
-async def check_emotion():
+async def check_emotion(connection) -> None:
     """
     The function that takes the recognized emotion from emorec.py,
     recognition in emorec.py must be run in parallel via anaconda
     """
     while True:
         await asyncio.sleep(0.5)
-        data = conn.recv(1024).decode()
+        data = connection.recv(1024).decode()
         if not data:
-            conn.close(); break  # here lies the error
+            connection.close(); break  # here lies the error
         print("from connected user: " + str(data))
         if data == "Happy":
             text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
             showimg_tk("graphics/r1.png", text, ismuz=True)
 
 if __name__ == "__main__":
+    print("debug 0")
+    conn, address = start_serv()
+    print("debug end")
+    print("Connection from: " + str(address))
+
     # async loop so REI can see and listen me
     loop = asyncio.get_event_loop()
-    cors = asyncio.wait([check_voice(), check_emotion()])
+    cors = asyncio.wait([check_voice()])  # check_emotion(connection=conn)])
     loop.run_until_complete(cors)
