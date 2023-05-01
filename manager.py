@@ -25,6 +25,17 @@ from config import commands
 translator = GoogleTranslator(source='ru', target='en')
 translator1 = GoogleTranslator(source='en', target='ru')
 
+conn, addres = None # add global
+def start(): # add
+    # set socket parameters for IPC
+    host = socket.gethostname()
+    port = 5000
+    server_socket = socket.socket()
+    server_socket.bind((host, port))
+    server_socket.listen(2)
+    conn, address = server_socket.accept()
+    print("Connection from: " + str(address))
+
 
 async def check_voice():
     """
@@ -44,15 +55,6 @@ async def check_voice():
         #     text = get_gpt2_text("tell me how is my anime girl: " + translated)
         #     showimg_tk("graphics/r1.png", text, ismuz=True)
 
-# set socket parameters for IPC
-host = socket.gethostname()
-port = 5000
-server_socket = socket.socket()
-server_socket.bind((host, port))
-server_socket.listen(2)
-conn, address = server_socket.accept()
-print("Connection from: " + str(address))
-
 
 async def check_emotion():
     """
@@ -69,7 +71,8 @@ async def check_emotion():
             text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
             showimg_tk("graphics/r1.png", text, ismuz=True)
 
-# async loop so REI can see and listen me
-loop = asyncio.get_event_loop()
-cors = asyncio.wait([check_voice(), check_emotion()])
-loop.run_until_complete(cors)
+if __name__ == "__main__":
+    # async loop so REI can see and listen me
+    loop = asyncio.get_event_loop()
+    cors = asyncio.wait([check_voice(), check_emotion()])
+    loop.run_until_complete(cors)
