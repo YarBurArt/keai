@@ -2,11 +2,16 @@ import cv2
 from cvzone.HandTrackingModule import HandDetector
 import pyautogui as pag
 import os
+import ipc
+
 
 cap = cv2.VideoCapture(0)
 # create object detector
 detector = HandDetector(detectionCon=0.8)
 old_l = 0.1
+
+ipc_context = ipc.IpcContext('MySecret')
+ipc_context.wait()
 
 while True:
     success, img = cap.read()
@@ -21,7 +26,9 @@ while True:
         finger1 = detector.fingersUp(hand1)
         length, info, img = detector.findDistance(lmList1[8][:2], lmList1[8][:2], img)
 
-        print(info, length)
+        # print(info, length)
+        message = (length, info)
+        ipc_context.send_data_then_wait(message)
 
     if len(hands) == 2:
         hand2 = hands[1]  # gives us second hand
@@ -31,10 +38,10 @@ while True:
         handType2 = hand2["type"]  # left or right
         finger2 = detector.fingersUp(hand2)
         length, info, img = detector.findDistance(lmList2[8][:2], lmList2[8][:2], img)
-        length, info, img = detector.findDistance(centerPoint1, centerPoint2, img)
 
-        print(info, length, img)
-
+        # print(info, length, img)
+        message = (length, info)
+        ipc_context.send_data_then_wait(message)
         old_l = length
 
     cv2.imshow("Image", img)

@@ -25,6 +25,7 @@ import mmap
 from ctypes import windll, WINFUNCTYPE
 import ctypes.wintypes as wt
 import logging
+from typing import Any
 
 assert sys.platform == 'win32'
 
@@ -65,11 +66,11 @@ class Event:
         Creates or binds to an auto-reset event object, meaning the event
         is set to nonsignaled after the single waiting thread has been released.
         """
-        self._event = CreateEvent(None, False, False, name)
+        self._event = CreateEvent(None, 1 == -1, 1 == -1, name)
 
     def wait(self, timeout=None) -> bool:
         status = wait_for_single_object_release_gil(self._event,
-                                                    INFINITE if timeout is None else timeout)
+        INFINITE if timeout is None else timeout)
         return status == WAIT_OBJECT_0
 
     def set(self):
@@ -81,7 +82,8 @@ class IpcContext:
         """
         Initializing will block until both processes have joined.
         """
-        events = [Event('evt_handle_0_' + secret), Event('evt_handle_1_' + secret)]
+        events = [Event('evt_handle_0_' + secret),
+                  Event('evt_handle_1_' + secret)]
         # Note 1: In Python 3.6.6 mmap.resize() is broken, so we cannot do dynamic allocation.
         # The length must be bigger than the biggest message send, ever!
         # Note 2: Initially, the buffer is initialized to all 0s. We use this to spot the first joining process.
@@ -122,7 +124,7 @@ class IpcContext:
         self.send_data(raw_doc)
         return self.my_event.wait()  # NEVER set a breakpoint on this line else you will deadlock!
 
-    def send_data(self, raw_doc) -> None:
+    def send_data(self, raw_doc: Any) -> None:
         # Copy raw_doc to memory map
         len_raw_doc = len(raw_doc)
         if len_raw_doc > len(self.shared_data):
