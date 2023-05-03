@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright 2018-09-09, Wolfgang Kühn
+Copyright 2018-09-09, create by Wolfgang Kühn, edit by YarBurArt
 Fast inter-process communication (ipc) for Python (CPython, PyPy, 2.7, 3.6+) on MS-Windows.
 It uses shared memory and eventing.
 Example rpc style synchronization:
@@ -43,6 +43,8 @@ CreateEvent.argtypes = (wt.LPVOID, wt.BOOL, wt.BOOL, wt.LPCWSTR)
 SetEvent = windll.kernel32.SetEvent
 SetEvent.restype = wt.BOOL
 SetEvent.argtypes = (wt.HANDLE,)
+
+BUFFER_SIZE = 1024 * 1024
 ##########################################################################
 
 # GIL-releasing wrapper for WaitForSingleObject. Needed so that calling WaitForSingleObjectEx
@@ -65,8 +67,9 @@ class Event:
         """
         self._event = CreateEvent(None, False, False, name)
 
-    def wait(self, timeout=None):  # type (float) -> bool
-        status = wait_for_single_object_release_gil(self._event, INFINITE if timeout is None else timeout)
+    def wait(self, timeout=None) -> bool:
+        status = wait_for_single_object_release_gil(self._event,
+                                                    INFINITE if timeout is None else timeout)
         return status == WAIT_OBJECT_0
 
     def set(self):
@@ -74,7 +77,7 @@ class Event:
 
 
 class IpcContext:
-    def __init__(self, secret):
+    def __init__(self, secret) -> None:
         """
         Initializing will block until both processes have joined.
         """
@@ -82,14 +85,17 @@ class IpcContext:
         # Note 1: In Python 3.6.6 mmap.resize() is broken, so we cannot do dynamic allocation.
         # The length must be bigger than the biggest message send, ever!
         # Note 2: Initially, the buffer is initialized to all 0s. We use this to spot the first joining process.
-        self.shared_data = mmap.mmap(-1, length=1024 * 1024, tagname='buffer_' + secret, access=mmap.ACCESS_WRITE)
+        self.shared_data = mmap.mmap(INFINITE, length=BUFFER_SIZE,
+                                     tagname='buffer_' + secret,
+                                     access=mmap.ACCESS_WRITE)
 
         # Python 2.7 fix
         buffer = bytearray(self.shared_data[:])
 
         activation_index = buffer[0]
         if any(buffer[1:]) or activation_index not in {0, 1}:
-            raise AssertionError('The memory map is polluted. Do you already have a process running?')
+            raise AssertionError('The memory map is polluted. '
+                                 'Do you already have a process running?')
 
         if activation_index == 0:
             logging.info('my process was first')
@@ -105,21 +111,22 @@ class IpcContext:
         else:
             self.other_event.set()  # I am second, release the first process.
 
-    def wait(self):
+    def wait(self) -> None:
         self.my_event.wait()
 
-    def signal_then_wait(self):  # type: () -> bool
+    def signal_then_wait(self) -> bool:
         self.other_event.set()
         return self.my_event.wait()  # NEVER set a breakpoint on this line else you will deadlock!
 
-    def send_data_then_wait(self, raw_doc):
+    def send_data_then_wait(self, raw_doc: Any) -> bool:
         self.send_data(raw_doc)
         return self.my_event.wait()  # NEVER set a breakpoint on this line else you will deadlock!
 
-    def send_data(self, raw_doc):
+    def send_data(self, raw_doc) -> None:
         # Copy raw_doc to memory map
-        if len(raw_doc) > len(self.shared_data):
-            raise AssertionError('Message too big: {len(raw_doc)}')
-        self.shared_data[0:len(raw_doc)] = raw_doc
+        len_raw_doc = len(raw_doc)
+        if len_raw_doc > len(self.shared_data):
+            raise AssertionError('Message too big: {len_raw_doc}')
+        self.shared_data[0:len_raw_doc] = raw_doc
         self.other_event.set()
 

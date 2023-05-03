@@ -14,7 +14,6 @@ This is just the code sketch
 """
 
 import ipc
-import socket
 import asyncio
 from imgshow import showimg_tk
 from chatKeai import get_gpt2_text  # rewtite
@@ -56,20 +55,30 @@ async def check_emotion(ipccntx) -> None:
     The function that takes the recognized emotion from emorec.py,
     recognition in emorec.py must be run in parallel via anaconda
     """
-    ipccntx.wait()
+    try:
+        ipccntx.wait()
+    except AssertionError as e:
+        print(e)
     while True:
         await asyncio.sleep(0.5)
-        data = ipccntx.read_data()
-        print("from connected user: " + str(data))
-        if data == "Happy":  # bug
-            # text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
-            text = "null"
-            showimg_tk("graphics/r1.png", text, ismuz=True)
+        try:
+            data = ipccntx.read_data()
+            print("from connected user: " + str(data))
+            if data == "Happy":  # bug
+                # text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
+                text = "null"
+                showimg_tk("graphics/r1.png", text, ismuz=True)
+        except AssertionError as e:
+            print(e)
+
 
 if __name__ == "__main__":
-    ipc_context = ipc.IpcContext('MySecret')
+    try:
+        ipc_context = ipc.IpcContext('MySecret')
 
-    # async loop so REI can see and listen me
-    loop = asyncio.get_event_loop()
-    cors = asyncio.wait([check_voice(), check_emotion(ipccntx=ipc_context)])
-    loop.run_until_complete(cors)
+        # async loop so REI can see and listen me
+        loop = asyncio.get_event_loop()
+        cors = asyncio.wait([check_voice(), check_emotion(ipccntx=ipc_context)])
+        loop.run_until_complete(cors)
+    except AssertionError as e:
+        print(e)

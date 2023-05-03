@@ -11,8 +11,10 @@ VisionRunningMode = mp.tasks.vision.RunningMode
 
 cap = cv2.VideoCapture(0)
 
+
 def print_result(result: HandLandmarkerResult, output_image: mp.Image, timestamp_ms: int):
     print('hand landmarker result: {}'.format(result))
+
 
 options = HandLandmarkerOptions(
     base_options=BaseOptions(model_asset_path='models/hand_landmarker.task'),
