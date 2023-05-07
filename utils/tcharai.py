@@ -1,4 +1,4 @@
-# create by github.com/niizam , edit by YarBurArt
+# create by github.com/niizam
 from playwright.sync_api import Playwright, sync_playwright, expect
 import curses
 import sys
