@@ -25,7 +25,8 @@ from mmap import mmap, ACCESS_WRITE
 from ctypes import windll, WINFUNCTYPE
 import ctypes.wintypes as wt
 from logging import info as log_info
-from typing import Any, Union
+from typing import Any, Union, Callable
+
 
 ##########################################################################
 # Minimal shim for win32event, in case you cannot have pywin32 (pypy, etc)
@@ -48,9 +49,9 @@ BUFFER_SIZE = 1024 * 1024
 
 # GIL-releasing wrapper for WaitForSingleObject. Needed so that calling WaitForSingleObjectEx
 # only blocks its thread, not the complete process.
-prototype = WINFUNCTYPE(wt.DWORD, wt.HANDLE, wt.DWORD)
-paramflags = (1, "handle"), (1, "milliseconds")
-wait_for_single_object_release_gil = prototype(("WaitForSingleObject", windll.kernel32), paramflags)
+prototype: Callable = WINFUNCTYPE(wt.DWORD, wt.HANDLE, wt.DWORD)
+paramflags: tuple = (1, "handle"), (1, "milliseconds")
+wait_for_single_object_release_gil: Callable = prototype(("WaitForSingleObject", windll.kernel32), paramflags)
 
 
 class Event:
