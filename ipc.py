@@ -122,7 +122,7 @@ class IpcContext:
         self.send_data(raw_doc)
         return self.my_event.wait()  # NEVER set a breakpoint on this line else you will deadlock!
 
-    def send_data(self, raw_doc: Any) -> None:
+    def send_data(self, raw_doc: Union[Any, str]) -> None:
         # Copy raw_doc to memory map
         len_raw_doc = len(raw_doc)
         assert bool(len_raw_doc > len(self.shared_data)) is False, \
