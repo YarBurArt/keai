@@ -64,7 +64,8 @@ class Event:
         Creates or binds to an auto-reset event object, meaning the event
         is set to nonsignaled after the single waiting thread has been released.
         """
-        self._event = CreateEvent(None, 1 == -1, 1 == -1, name)
+        self._event = CreateEvent(None, 1 == -1,
+                                  1 == -1, name)
 
     def wait(self, timeout=None) -> bool:
         status = wait_for_single_object_release_gil(self._event,
@@ -96,7 +97,7 @@ class IpcContext:
         assert bool(any(buffer[1:]) or activation_index in {0, 1}), \
             'The memory map is polluted. Do you already have a process running?'
 
-        if activation_index == 0:
+        if not activation_index:
             log_info('my process was first')
             self.shared_data[:1] = b'\x01'  # Set first byte to 1 for second process.
         else:
@@ -105,7 +106,7 @@ class IpcContext:
 
         self.my_event, self.other_event = events
 
-        if activation_index == 0:
+        if not activation_index:
             self.my_event.wait()  # I am first, wait for the second process to join.
         else:
             self.other_event.set()  # I am second, release the first process.
