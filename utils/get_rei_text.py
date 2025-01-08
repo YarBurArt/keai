@@ -1,6 +1,6 @@
 from playwright.sync_api import sync_playwright
 from playwright._impl._api_types import TimeoutError
-from chatKeai2 import run
+from keai.chatKeai2 import run
 
 
 if __name__ == '__main__':

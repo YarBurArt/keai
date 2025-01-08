@@ -26,7 +26,7 @@ while True:
     with HandLandmarker.create_from_options(options) as landmarker:
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=img)
         landmarker.detect_async(mp_image, 2)
-    # cv2.imshow(cv2.cvtColor(annotated_image, cv2.COLOR_RGB2BGR))
+    cv2.imshow("Image", img)
 
     # Wait for user input - q, then you will stop the loop
     key_pressed = cv2.waitKey(1) & 0xFF  # it will wait for 1 mili second bitwise and
