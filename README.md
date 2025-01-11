@@ -28,11 +28,14 @@ The project is still under active development, not everything has been realised 
 OR
 
 Use the individual functions from these files: `handrec.py` , `emorec.py` , `spr2.py` , `imgshow.py` , `autopc.py`
+You can also use separately for example `utils/poseimg2txt.py` to generate text of description of emotions and pose from webcam.
 
 ## How it works / 
 
 Files: `handrec.py` , `emorec.py` and `spr2.py` receives data from the camera and microphone and transmits it to the manager. 
 The manager, based on the ai, triggers a response in the files: `imgshow.py` and `autopc.py`
+
+The project just collects the uses of developments like pytorch, tensorflow, ollama, huggingface and so on into one Ray, a some of its own works and their integration via IPC and python tools. Architecture and model selection on not very powerful hardware. Minimally even integrated graphics. You can use the code in other projects as licensed
 
 ## Description /
 *Text written by ChatGPT 3.5 and edit by YarBurArt*
