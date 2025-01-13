@@ -15,6 +15,10 @@ for linux: `source venv/bin/activate`
 
 for windows: `venv/Scripts/activate`
 
+then install torch via pip3 on https://pytorch.org/get-started/locally/
+
+nightly because python 3.13, and then 
+
 `pip install -r requirements.txt`
 
 Be careful, some packages weigh a lot of gigabytes.

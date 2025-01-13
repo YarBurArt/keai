@@ -1,3 +1,4 @@
+
 """
  __   __        ___           _       _
  \ \ / /_ _ _ _| _ )_  _ _ _ /_\  _ _| |_
@@ -65,7 +66,7 @@ async def check_emotion(ipccntx) -> None:
             data = ipccntx.read_data()
             print("from connected user: " + str(data))
             if data == "Happy":  # bug
-                # text = get_gpt2_text("tell me how is my anime girl: hello, i feel happy")
+                # text = get_gpt2_text("tell me like my anime girl: hello, i feel happy")
                 text = "null"
                 showimg_tk("graphics/r1.png", text, ismuz=True)
         except AssertionError as e:
@@ -82,3 +83,8 @@ if __name__ == "__main__":
         loop.run_until_complete(cors)
     except AssertionError as e:
         print(e)
+    except KeyboardInterrupt as e:
+        if input("Show traceback if it's an error ? (y/n) : ") in ["y", "Y", "yes", "Yes"]:
+            print(e)
+        else:
+            print("Goodbye, but I wish you wouldn't shut me down like that")

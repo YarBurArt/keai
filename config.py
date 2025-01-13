@@ -1,5 +1,5 @@
 
-# original commands from https://github.com/Priler/jarvis (somewhere in old python forks)
+# original commands from https://github.com/Priler/jarvis (somewhere in old forks)
 commands = {
     "open_browser": ('открой браузер', 'запусти браузер', 'открой гугл хром', 'гугл хром'),
     "open_youtube": ('открой ютуб', 'ютуб', 'запусти ютуб'),
