@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 """
  __   __        ___           _       _
  \ \ / /_ _ _ _| _ )_  _ _ _ /_\  _ _| |_
@@ -17,7 +17,7 @@ This is just the code sketch
 import ipc
 import asyncio
 from imgshow import showimg_tk
-from chatKeai import get_gpt2_text  # rewtite
+from chatKeai import get_llm_text  # rewtite
 from autopc import execute_command
 from deep_translator import GoogleTranslator
 from spr3 import voice_recognition
@@ -43,7 +43,7 @@ async def check_voice() -> None:
             # if command is not found or else execute it
             if not await execute_command(commands, text):
                 translated = translator.translate(text)
-                text = get_gpt2_text("tell me how is my anime girl: " + translated)
+                text = get_llm_text("This text from my voice recognition: " + translated)
                 showimg_tk("graphics/r1.png", text, ismuz=True)
         except UnknownValueError:
             pass
