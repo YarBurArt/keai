@@ -2,7 +2,7 @@ from ollama import chat
 from ollama import ChatResponse
 
 
-def get_llm_text(text: str):
+def get_llm_text(text: str) -> str:
     messages: list[dict] = [
         {
             'role': 'system',

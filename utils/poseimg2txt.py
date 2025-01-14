@@ -5,6 +5,7 @@ import time
 import requests
 import cv2
 
+
 def encode_image_to_base64(image_path):
     """ standard convert an image file to base64 string"""
     if isinstance(image_path, str) and image_path.startswith("http"):
@@ -12,6 +13,7 @@ def encode_image_to_base64(image_path):
         return base64.b64encode(response.content).decode('utf-8')
     else:
         return base64.b64encode(Path(image_path).read_bytes()).decode('utf-8')
+
 
 def capimgfrm2base64(ipcam_url):
     """capture image frame from webcam and convert it to base64 string, support ip webcam"""
@@ -22,6 +24,7 @@ def capimgfrm2base64(ipcam_url):
         return base64.b64encode(frame).decode('utf-8')
     else:
         return None
+
 
 def describe_image(base64_image):
     """send image to local Llama API in base
@@ -70,7 +73,8 @@ def process_image(image_path: str):
     description = describe_image(base64_image)
     print(f"<use this pose description from web camera {description}>")  # TODO rewrite format
     # image_path.with_suffix('.txt').write_text(description, encoding='utf-8')
-    #print(f"<Created {image_path.with_suffix('.txt')}>")
+    # print(f"<Created {image_path.with_suffix('.txt')}>")
+
 
 def process_directory_or_url(input_path):
     """process images in a directory or from a URL """
@@ -91,18 +95,20 @@ def process_directory_or_url(input_path):
         for image_path in image_files:
             process_image(image_path)
 
+
 def use_webcam():
     while True:
         print("st1 -")
         if base64_image := capimgfrm2base64():
             print("st2 -")
-            #print(base64_image)
+            # print(base64_image)
             description = describe_image(base64_image)
             print(f"<use this pose description from web camera {description}>")
         time.sleep(5)
 
+
 def check_webcam():
-    cap = cv2.VideoCapture(0) # setup id or url
+    cap = cv2.VideoCapture(0)  # setup id or url
     if not cap.isOpened():
         return
     ret, frame = cap.read()
@@ -114,8 +120,9 @@ def check_webcam():
     cv2.destroyAllWindows()
     quit()
 
+
 if __name__ == "__main__":
-    #check_webcam()
+    # check_webcam()
     import sys
     if len(sys.argv) > 1:
         if sys.argv[1] == "--webcam":
